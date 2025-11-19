@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель студента</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 sidebar">
+                <div class="position-sticky">
+                    <div class="p-3">
+                        <h4>МедЖурнал</h4>
+                        <p class="text-muted mb-0" id="studentInfo">Студент</p>
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#studentDashboard" data-bs-toggle="tab">
+                                📊 Обзор
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#schedule" data-bs-toggle="tab">
+                                📅 Расписание
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#grades" data-bs-toggle="tab">
+                📝 Мои оценки
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#attendance" data-bs-toggle="tab">
+                                ✅ Моя посещаемость
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#materials" data-bs-toggle="tab">
+                                📚 Учебные материалы
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tests" data-bs-toggle="tab">
+                                🧪 Тестирование
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <button class="btn btn-outline-light w-100" onclick="AuthService.logout()">
+                                🚪 Выход
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <div class="tab-content">
+                    <!-- Dashboard Tab -->
+                    <div class="tab-pane fade show active" id="studentDashboard">
+                        <h2>Мой учебный профиль</h2>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body">
+                                        <h5 id="averageGrade">0.0</h5>
+                                        <p class="text-muted">Средний балл</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body">
+                                        <h5 id="attendanceRate">0%</h5>
+                                        <p class="text-muted">Посещаемость</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body">
+                                        <h5 id="completedLessons">0</h5>
+                                        <p class="text-muted">Пройдено занятий</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body">
+                                        <h5 id="upcomingTests">0</h5>
+                                        <p class="text-muted">Предстоящие тесты</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Ближайшие занятия</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="studentUpcomingLessons">
+                                            <!-- Upcoming lessons will be loaded here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Последние оценки</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="recentGrades">
+                                            <!-- Recent grades will be loaded here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule Tab -->
+                    <div class="tab-pane fade" id="schedule">
+                        <h2>Мое расписание</h2>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <select class="form-select" id="scheduleWeekFilter">
+                                    <option value="current">Текущая неделя</option>
+                                    <option value="next">Следующая неделя</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive mt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Дата/Время</th>
+                                        <th>Предмет</th>
+                                        <th>Преподаватель</th>
+                                        <th>Тема</th>
+                                        <th>Материалы</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scheduleTable">
+                                    <!-- Schedule will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Grades Tab -->
+                    <div class="tab-pane fade" id="grades">
+                        <h2>Мои оценки</h2>
+                        
+                        <div class="table-responsive mt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Предмет</th>
+                                        <th>Тема занятия</th>
+                                        <th>Дата</th>
+                                        <th>Оценка</th>
+                                        <th>Преподаватель</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gradesTable">
+                                    <!-- Grades will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Tab -->
+                    <div class="tab-pane fade" id="attendance">
+                        <h2>Моя посещаемость</h2>
+                        
+                        <div class="table-responsive mt-3">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Предмет</th>
+                                        <th>Тема</th>
+                                        <th>Статус</th>
+                                        <th>Примечание</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendanceTable">
+                                    <!-- Attendance records will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Materials Tab -->
+                    <div class="tab-pane fade" id="materials">
+                        <h2>Учебные материалы</h2>
+                        
+                        <div class="row mt-3" id="materialsGrid">
+                            <!-- Materials will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Tests Tab -->
+                    <div class="tab-pane fade" id="tests">
+                        <h2>Тестирование</h2>
+                        
+                        <div class="row mt-3" id="availableTests">
+                            <!-- Available tests will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+    <script src="student.js"></script>
+</body>
+</html>
